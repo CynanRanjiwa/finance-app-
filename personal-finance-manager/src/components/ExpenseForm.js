@@ -8,7 +8,8 @@ const ExpenseForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Log the expense data (Later, this would be stored in state or sent to backend)
-    console.log(`Expense: ${expense}, Category: ${category}`);
+    // add expense to the parent components state 
+    addExpense(category, expense);
     setExpense(0);
     setCategory('');
   };
