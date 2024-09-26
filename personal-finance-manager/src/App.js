@@ -31,6 +31,7 @@ import ExpenseForm from './components/ExpenseForm';
 import IncomeForm from './components/ExpenseForm';
 import BudgetOverview from './components/BudgetOverview';
 import FinanceChart from './components/FinanceChart';
+import GoalSetting from './components/GoalSetting';
 
 // main app component to render all other components 
 const App = () => {
@@ -57,8 +58,9 @@ const App = () => {
       </div>
       <BudgetOverview incomes={incomes} expenses={expenses} />
       <FinanceChart incomes={incomes} expenses={expenses} />
+      <GoalSetting />  // component to set financial goals
     </div>
-  )
-}
+  );
+};
 
 export default App;
