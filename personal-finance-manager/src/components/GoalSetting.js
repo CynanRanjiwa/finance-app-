@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-// Component to set financial goals
+// Component to set and track financial goals
 const GoalSetting = () => {
   const [goal, setGoal] = useState(0);
   const [currentSavings, setCurrentSavings] = useState(0);
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    // Check if savings have reached or are close to the goal
+    if (currentSavings >= goal && goal > 0) {
+      setMessage('🎉 Congratulations! You have reached your goal!');
+    } else if (goal > 0 && currentSavings >= goal * 0.9) {
+      setMessage('You are close to reaching your goal!');
+    } else {
+      setMessage('');
+    }
+  }, [currentSavings, goal]);
 
   const handleGoalSubmit = (e) => {
     e.preventDefault();
-    alert(`Goal set to: $${goal}`);
+    if (goal <= 0) {
+      alert('Please set a valid goal amount.');
+    } else {
+      alert(`Goal set to: $${goal}`);
+    }
   };
 
   return (
@@ -32,6 +48,7 @@ const GoalSetting = () => {
         />
       </label>
       <button type="submit">Set Goal</button>
+      <p>{message}</p>
     </form>
   );
 };

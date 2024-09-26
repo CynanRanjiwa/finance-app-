@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 
 // Form to handle expense inputs
-const ExpenseForm = () => {
+const ExpenseForm = ({ addExpense }) => {
   const [expense, setExpense] = useState(0);
   const [category, setCategory] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Log the expense data (Later, this would be stored in state or sent to backend)
-    // add expense to the parent components state 
+    // Add expense to the parent component's state
     addExpense(category, expense);
     setExpense(0);
     setCategory('');
