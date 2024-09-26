@@ -1,54 +1,43 @@
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from './components/Header';
 import ExpenseForm from './components/ExpenseForm';
-import IncomeForm from './components/ExpenseForm';
+import IncomeForm from './components/IncomeForm';
 import BudgetOverview from './components/BudgetOverview';
-import FinanceChart from './components/FinanceChart';
+import FinanceChart from './components/Chart';
 import GoalSetting from './components/GoalSetting';
 
-// main app component to render all other components 
 const App = () => {
-  //state to track list of incomes ad expenses 
-  const [incomes, setIncomes] = useState([]);
-  const [expenses, setExpenses] = useState([]);
+  const [incomes, setIncomes] = useState(() => {
+    // Get initial value from localStorage
+    const savedIncomes = localStorage.getItem('incomes');
+    return savedIncomes ? JSON.parse(savedIncomes) : [];
+  });
 
-  // add new income 
+  const [expenses, setExpenses] = useState(() => {
+    const savedExpenses = localStorage.getItem('expenses');
+    return savedExpenses ? JSON.parse(savedExpenses) : [];
+  });
+
+  // Persist incomes and expenses in localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('incomes', JSON.stringify(incomes));
+  }, [incomes]);
+
+  useEffect(() => {
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+  }, [expenses]);
+
+  // Add new income
   const addIncome = (source, amount) => {
-    setIncomes([...incomes, {source, amount}]);
-  };
-  // add new expenses 
-  const addExpense = (category, amount) => {
-    setExpenses([...expenses, {category, amount}]);
+    setIncomes([...incomes, { source, amount }]);
   };
 
-  // render the app with all components 
+  // Add new expense
+  const addExpense = (category, amount) => {
+    setExpenses([...expenses, { category, amount }]);
+  };
+
   return (
     <div className="App">
       <Header />
@@ -58,7 +47,7 @@ const App = () => {
       </div>
       <BudgetOverview incomes={incomes} expenses={expenses} />
       <FinanceChart incomes={incomes} expenses={expenses} />
-      <GoalSetting />  // component to set financial goals
+      <GoalSetting />
     </div>
   );
 };
