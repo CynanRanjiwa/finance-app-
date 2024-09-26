@@ -2,7 +2,10 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 
 // Chart component to visualize income vs. expenses
-const FinanceChart = () => {
+const FinanceChart = ({ incomes, expenses }) => {
+    // calculate total income and total expenses 
+    const totalIncome = incomes.reduce((acc, income) => acc + income.amount, 0);
+    const totalExpenses = expenses.reduce((acc, expense) => acc + expense.amount, 0);
   const data = {
     labels: ['Income', 'Expenses'],
     datasets: [
