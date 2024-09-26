@@ -9,7 +9,6 @@ import GoalSetting from './components/GoalSetting';
 
 const App = () => {
   const [incomes, setIncomes] = useState(() => {
-    // Get initial value from localStorage
     const savedIncomes = localStorage.getItem('incomes');
     return savedIncomes ? JSON.parse(savedIncomes) : [];
   });
@@ -19,21 +18,25 @@ const App = () => {
     return savedExpenses ? JSON.parse(savedExpenses) : [];
   });
 
-  // Persist incomes and expenses in localStorage whenever they change
+  const [goal, setGoal] = useState(() => {
+    const savedGoal = localStorage.getItem('goal');
+    return savedGoal ? JSON.parse(savedGoal) : 0;
+  });
+
+  const [currentSavings, setCurrentSavings] = useState(0);
+
+  // Store in localStorage when data changes
   useEffect(() => {
     localStorage.setItem('incomes', JSON.stringify(incomes));
-  }, [incomes]);
-
-  useEffect(() => {
     localStorage.setItem('expenses', JSON.stringify(expenses));
-  }, [expenses]);
+    localStorage.setItem('goal', goal);
+  }, [incomes, expenses, goal]);
 
-  // Add new income
+  // Add income and expense handling
   const addIncome = (source, amount) => {
     setIncomes([...incomes, { source, amount }]);
   };
 
-  // Add new expense
   const addExpense = (category, amount) => {
     setExpenses([...expenses, { category, amount }]);
   };
@@ -47,7 +50,7 @@ const App = () => {
       </div>
       <BudgetOverview incomes={incomes} expenses={expenses} />
       <FinanceChart incomes={incomes} expenses={expenses} />
-      <GoalSetting />
+      <GoalSetting goal={goal} setGoal={setGoal} currentSavings={currentSavings} setCurrentSavings={setCurrentSavings} />
     </div>
   );
 };

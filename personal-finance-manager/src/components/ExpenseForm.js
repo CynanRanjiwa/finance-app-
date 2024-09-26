@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 
-// Form to handle expense inputs
 const ExpenseForm = ({ addExpense }) => {
   const [expense, setExpense] = useState(0);
   const [category, setCategory] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add expense to the parent component's state
     addExpense(category, expense);
     setExpense(0);
     setCategory('');
@@ -16,24 +14,10 @@ const ExpenseForm = ({ addExpense }) => {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Track Expenses</h2>
-      <label>
-        Category:
-        <input
-          type="text"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Amount:
-        <input
-          type="number"
-          value={expense}
-          onChange={(e) => setExpense(Number(e.target.value))}
-          required
-        />
-      </label>
+      <label>Category:</label>
+      <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} required />
+      <label>Amount:</label>
+      <input type="number" value={expense} onChange={(e) => setExpense(Number(e.target.value))} required />
       <button type="submit">Add Expense</button>
     </form>
   );
