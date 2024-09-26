@@ -2,14 +2,14 @@
 import React, { useState } from 'react';
 
 // form to handle income inputs 
-const IncomeForm = () => {
+const IncomeForm = ({ addIncome }) => {
     const [income, setIncome] = useState(0);
     const [source, setSource] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // load the income data 
-        console.log(`Income: ${income}, Source: ${source}`);
+        // add income to the parent components state 
+        addIncome(source, income);
         setIncome(0);
         setSource('');
     };
