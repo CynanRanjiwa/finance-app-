@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -7,13 +7,19 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from 'chart.js';
 
-// Registering the necessary components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const FinanceChart = ({ incomes, expenses }) => {
+const ChartComponent = ({ incomes, expenses }) => {
+  const chartRef = useRef(null);
+
+  // useEffect example: logging chart data updates
+  useEffect(() => {
+    console.log("Chart data updated:", incomes, expenses);
+  }, [incomes, expenses]);
+
   const totalIncome = incomes.reduce((acc, income) => acc + income.amount, 0);
   const totalExpenses = expenses.reduce((acc, expense) => acc + expense.amount, 0);
 
@@ -44,9 +50,9 @@ const FinanceChart = ({ incomes, expenses }) => {
   return (
     <div>
       <h2>Income vs. Expenses</h2>
-      <Bar data={data} options={options} />
+      <Bar ref={chartRef} data={data} options={options} />
     </div>
   );
 };
 
-export default FinanceChart;
+export default ChartComponent;
